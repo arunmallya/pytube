@@ -251,7 +251,15 @@ class YouTube(object):
         :rtype: str
 
         """
-        return self.player_config_args['title']
+        try:
+            tt1 = self.player_config_args['title']
+        except:
+            tt1 = self.player_config_args.get('player_response', {}).get(
+                'videoDetails', {}).get('title')
+        finally:
+            if not tt1:
+                tt1 = "Unknown YTube video"
+        return tt1
 
     @property
     def description(self):

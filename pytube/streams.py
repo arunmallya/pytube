@@ -173,7 +173,14 @@ class Stream(object):
         :returns:
             An os file system compatible filename.
         """
-        title = self.player_config_args['title']
+        try:
+            title = self.player_config_args['title']
+        except:
+            title = self.player_config_args.get(
+                'player_response', {}).get('videoDetails', {}).get('title')
+        finally:
+            if not title:
+                title = "Unknown YTube video"
         filename = safe_filename(title)
         return '{filename}.{s.subtype}'.format(filename=filename, s=self)
 
